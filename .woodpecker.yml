@@ -2,7 +2,9 @@ steps:
   test:
     image: node:24-alpine
     commands:
+      - npm ci
       - npm run lint
+      - npm run test
 
     when:
       event:
