@@ -2,8 +2,8 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import type { UserDataType } from '../../models/users';
 import GetUsersServices from '../../services/get-users';
 
-// Mock fetch globally
-globalThis.fetch = vi.fn();
+// Properly type global fetch mock
+globalThis.fetch = vi.fn() as unknown as vi.MockedFunction<typeof fetch>;
 
 describe('GetUsersServices', () => {
   const mockUsers: UserDataType[] = [
@@ -17,10 +17,7 @@ describe('GetUsersServices', () => {
         suite: 'Apt 1',
         city: 'New York',
         zipcode: '10001',
-        geo: {
-          lat: '40.7128',
-          lng: '-74.0060',
-        },
+        geo: { lat: '40.7128', lng: '-74.0060' },
       },
       phone: '123-456-7890',
       website: 'johndoe.com',
@@ -40,10 +37,7 @@ describe('GetUsersServices', () => {
         suite: 'Suite 2',
         city: 'Los Angeles',
         zipcode: '90001',
-        geo: {
-          lat: '34.0522',
-          lng: '-118.2437',
-        },
+        geo: { lat: '34.0522', lng: '-118.2437' },
       },
       phone: '098-765-4321',
       website: 'janesmith.com',
@@ -65,11 +59,11 @@ describe('GetUsersServices', () => {
 
   describe('Successful Responses', () => {
     it('should fetch users successfully', async () => {
-      const mockResponse = {
+      const mockResponse: Partial<Response> = {
         ok: true,
         json: async () => mockUsers,
       };
-      (globalThis.fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse);
+      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
 
       const result = await GetUsersServices();
 
@@ -78,24 +72,24 @@ describe('GetUsersServices', () => {
     });
 
     it('should call the correct API endpoint', async () => {
-      const mockResponse = {
+      const mockResponse: Partial<Response> = {
         ok: true,
         json: async () => mockUsers,
       };
-      (globalThis.fetch as any).mockResolvedValueOnce(mockResponse);
+      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
 
       await GetUsersServices();
 
-      expect(globalThis.fetch).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/users');
-      expect(globalThis.fetch).toHaveBeenCalledTimes(1);
+      expect(fetch).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/users');
+      expect(fetch).toHaveBeenCalledTimes(1);
     });
 
     it('should return empty array when API returns empty array', async () => {
-      const mockResponse = {
+      const mockResponse: Partial<Response> = {
         ok: true,
         json: async () => [],
       };
-      (globalThis.fetch as any).mockResolvedValueOnce(mockResponse);
+      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
 
       const result = await GetUsersServices();
 
@@ -104,62 +98,65 @@ describe('GetUsersServices', () => {
     });
 
     it('should return users with all required properties', async () => {
-      const mockResponse = {
+      const mockResponse: Partial<Response> = {
         ok: true,
         json: async () => mockUsers,
       };
-      (globalThis.fetch as any).mockResolvedValueOnce(mockResponse);
+      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
 
       const result = await GetUsersServices();
 
-      expect(result[0]).toHaveProperty('id');
-      expect(result[0]).toHaveProperty('name');
-      expect(result[0]).toHaveProperty('username');
-      expect(result[0]).toHaveProperty('email');
-      expect(result[0]).toHaveProperty('address');
-      expect(result[0]).toHaveProperty('phone');
-      expect(result[0]).toHaveProperty('website');
-      expect(result[0]).toHaveProperty('company');
+      const user = result[0];
+      expect(user).toHaveProperty('id');
+      expect(user).toHaveProperty('name');
+      expect(user).toHaveProperty('username');
+      expect(user).toHaveProperty('email');
+      expect(user).toHaveProperty('address');
+      expect(user).toHaveProperty('phone');
+      expect(user).toHaveProperty('website');
+      expect(user).toHaveProperty('company');
     });
 
     it('should return users with nested address properties', async () => {
-      const mockResponse = {
+      const mockResponse: Partial<Response> = {
         ok: true,
         json: async () => mockUsers,
       };
-      (globalThis.fetch as any).mockResolvedValueOnce(mockResponse);
+      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
 
       const result = await GetUsersServices();
 
-      expect(result[0].address).toHaveProperty('street');
-      expect(result[0].address).toHaveProperty('suite');
-      expect(result[0].address).toHaveProperty('city');
-      expect(result[0].address).toHaveProperty('zipcode');
-      expect(result[0].address).toHaveProperty('geo');
-      expect(result[0].address.geo).toHaveProperty('lat');
-      expect(result[0].address.geo).toHaveProperty('lng');
+      const address = result[0].address;
+      expect(address).toHaveProperty('street');
+      expect(address).toHaveProperty('suite');
+      expect(address).toHaveProperty('city');
+      expect(address).toHaveProperty('zipcode');
+      expect(address).toHaveProperty('geo');
+      expect(address.geo).toHaveProperty('lat');
+      expect(address.geo).toHaveProperty('lng');
     });
 
     it('should return users with nested company properties', async () => {
-      const mockResponse = {
+      const mockResponse: Partial<Response> = {
         ok: true,
         json: async () => mockUsers,
       };
-      (globalThis.fetch as any).mockResolvedValueOnce(mockResponse);
+      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
 
       const result = await GetUsersServices();
 
-      expect(result[0].company).toHaveProperty('name');
-      expect(result[0].company).toHaveProperty('catchPhrase');
-      expect(result[0].company).toHaveProperty('bs');
+      const company = result[0].company;
+      expect(company).toHaveProperty('name');
+      expect(company).toHaveProperty('catchPhrase');
+      expect(company).toHaveProperty('bs');
     });
 
     it('should handle single user in array', async () => {
-      const mockResponse = {
+      const mockResponse: Partial<Response> = {
         ok: true,
         json: async () => [mockUsers[0]],
       };
-      (globalThis.fetch as any).mockResolvedValueOnce(mockResponse);
+      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
 
       const result = await GetUsersServices();
 
@@ -168,11 +165,11 @@ describe('GetUsersServices', () => {
     });
 
     it('should handle multiple users', async () => {
-      const mockResponse = {
+      const mockResponse: Partial<Response> = {
         ok: true,
         json: async () => mockUsers,
       };
-      (globalThis.fetch as any).mockResolvedValueOnce(mockResponse);
+      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
 
       const result = await GetUsersServices();
 
@@ -185,43 +182,49 @@ describe('GetUsersServices', () => {
   describe('Error Handling', () => {
     it('should reject with error message when fetch fails', async () => {
       const errorMessage = 'Network error';
-      (globalThis.fetch as any).mockRejectedValueOnce(new Error(errorMessage));
+      (fetch as vi.MockedFunction<typeof fetch>).mockRejectedValueOnce(new Error(errorMessage));
 
       await expect(GetUsersServices()).rejects.toBe(errorMessage);
     });
 
     it('should reject when network is unavailable', async () => {
-      (globalThis.fetch as any).mockRejectedValueOnce(new Error('Failed to fetch'));
+      (fetch as vi.MockedFunction<typeof fetch>).mockRejectedValueOnce(
+        new Error('Failed to fetch'),
+      );
 
       await expect(GetUsersServices()).rejects.toBe('Failed to fetch');
     });
 
     it('should reject when API returns error', async () => {
-      (globalThis.fetch as any).mockRejectedValueOnce(new Error('API Error'));
+      (fetch as vi.MockedFunction<typeof fetch>).mockRejectedValueOnce(new Error('API Error'));
 
       await expect(GetUsersServices()).rejects.toBe('API Error');
     });
 
     it('should handle timeout errors', async () => {
-      (globalThis.fetch as any).mockRejectedValueOnce(new Error('Request timeout'));
+      (fetch as vi.MockedFunction<typeof fetch>).mockRejectedValueOnce(
+        new Error('Request timeout'),
+      );
 
       await expect(GetUsersServices()).rejects.toBe('Request timeout');
     });
 
     it('should handle server errors', async () => {
-      (globalThis.fetch as any).mockRejectedValueOnce(new Error('500 Internal Server Error'));
+      (fetch as vi.MockedFunction<typeof fetch>).mockRejectedValueOnce(
+        new Error('500 Internal Server Error'),
+      );
 
       await expect(GetUsersServices()).rejects.toBe('500 Internal Server Error');
     });
 
     it('should handle JSON parsing errors', async () => {
-      const mockResponse = {
+      const mockResponse: Partial<Response> = {
         ok: true,
         json: async () => {
           throw new Error('Invalid JSON');
         },
       };
-      (globalThis.fetch as any).mockResolvedValueOnce(mockResponse);
+      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
 
       await expect(GetUsersServices()).rejects.toBe('Invalid JSON');
     });
@@ -229,11 +232,11 @@ describe('GetUsersServices', () => {
 
   describe('Promise Behavior', () => {
     it('should return a Promise', () => {
-      const mockResponse = {
+      const mockResponse: Partial<Response> = {
         ok: true,
         json: async () => mockUsers,
       };
-      (globalThis.fetch as any).mockResolvedValueOnce(mockResponse);
+      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
 
       const result = GetUsersServices();
 
@@ -241,11 +244,11 @@ describe('GetUsersServices', () => {
     });
 
     it('should resolve with UserDataType array', async () => {
-      const mockResponse = {
+      const mockResponse: Partial<Response> = {
         ok: true,
         json: async () => mockUsers,
       };
-      (globalThis.fetch as any).mockResolvedValueOnce(mockResponse);
+      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
 
       const result = await GetUsersServices();
 
@@ -254,11 +257,11 @@ describe('GetUsersServices', () => {
     });
 
     it('should be awaitable', async () => {
-      const mockResponse = {
+      const mockResponse: Partial<Response> = {
         ok: true,
         json: async () => mockUsers,
       };
-      (globalThis.fetch as any).mockResolvedValueOnce(mockResponse);
+      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
 
       const result = await GetUsersServices();
 
