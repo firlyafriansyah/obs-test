@@ -70,6 +70,7 @@ npm run preview
 - `npm run build` - Create production build
 - `npm run preview` - Preview production build
 - `npm run lint` - Run ESLint for code quality checks
+- `npm run test` - Run test for all unit test
 
 ## Project Structure
 

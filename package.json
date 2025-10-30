@@ -9,8 +9,6 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "test": "vitest",
-    "test:watch": "vitest --watch",
-    "test:ui": "vitest --ui",
     "prepare": "husky"
   },
   "dependencies": {
