@@ -13,8 +13,10 @@ import useUsers from './hooks/use-users';
 import useViewMode from './hooks/use-view-mode';
 import type { UserDataType } from './models/users';
 import GetUsersServices from './services/get-users';
+import useAlert from './hooks/use-alert';
 
 function App(): React.ReactElement {
+  const { setAlert } = useAlert();
   const { viewMode } = useViewMode();
   const { loading, setLoading } = useLoading();
   const {
@@ -36,7 +38,7 @@ function App(): React.ReactElement {
   const fetchingUsersData = React.useCallback(() => {
     GetUsersServices()
       .then((res) => setUsers(res))
-      .catch((err) => console.error(err))
+      .catch((err) => setAlert({ show: true, type: 'error', message: err.message }))
       .finally(() => setLoading(false));
   }, [setLoading, setUsers]);
 
