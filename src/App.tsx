@@ -1,22 +1,20 @@
-import * as React from "react";
-import DialogAlert from "./components/dialog-alert";
-import DialogDeleteConfirmation from "./components/dialog-delete-confirmation";
-import DialogManageUser from "./components/dialog-manage-user";
-import DialogUserDetail from "./components/dialog-user-detail";
-import GroupButton from "./components/group-button";
-import Loading from "./components/loading";
-import SearchBar from "./components/search-bar";
-import UsersCard from "./components/users-card";
-import UsersList from "./components/users-list";
-import useLoading from "./hooks/use-loading";
-import useUsers from "./hooks/use-users";
-import useViewMode from "./hooks/use-view-mode";
-import type { UserDataType } from "./models/users";
-import GetUsersServices from "./services/get-users";
-import useAlert from "./hooks/use-alert";
+import React from 'react';
+import DialogAlert from './components/dialog-alert';
+import DialogDeleteConfirmation from './components/dialog-delete-confirmation';
+import DialogManageUser from './components/dialog-manage-user';
+import DialogUserDetail from './components/dialog-user-detail';
+import GroupButton from './components/group-button';
+import Loading from './components/loading';
+import SearchBar from './components/search-bar';
+import UsersCard from './components/users-card';
+import UsersList from './components/users-list';
+import useLoading from './hooks/use-loading';
+import useUsers from './hooks/use-users';
+import useViewMode from './hooks/use-view-mode';
+import type { UserDataType } from './models/users';
+import GetUsersServices from './services/get-users';
 
-function App() {
-  const { setAlert } = useAlert();
+function App(): React.ReactElement {
   const { viewMode } = useViewMode();
   const { loading, setLoading } = useLoading();
   const {
@@ -30,10 +28,8 @@ function App() {
     totalUsers,
   } = useUsers();
 
-  const [showDialogDetailUser, setShowDialogDetailUser] =
-    React.useState<boolean>(false);
-  const [showDialogManageUser, setShowDialogManageUser] =
-    React.useState<boolean>(false);
+  const [showDialogDetailUser, setShowDialogDetailUser] = React.useState<boolean>(false);
+  const [showDialogManageUser, setShowDialogManageUser] = React.useState<boolean>(false);
   const [showDialogDeleteConfirmation, setShowDialogDeleteConfirmation] =
     React.useState<boolean>(false);
 
@@ -51,53 +47,52 @@ function App() {
 
   return (
     <>
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-center h-16 sm:h-24 px-4">
+      <div className="mx-auto max-w-7xl">
+        <div className="flex h-16 items-center px-4 sm:h-24">
           <p className="text-3xl font-medium">Users</p>
         </div>
-        <div className="mb-4 sm:mb-8 px-4">
+        <div className="mb-4 px-4 sm:mb-8">
           <div className="flex justify-between gap-3">
             <SearchBar />
             <GroupButton />
           </div>
           <div>
-            <p className="text-xs mt-1 ml-1 font-light">
-              Showed: {totalUsers} Users
-            </p>
+            <p className="mt-1 ml-1 text-xs font-light">Showed: {totalUsers} Users</p>
           </div>
         </div>
 
         <div className="mb-4 px-4">
           <button
-            onClick={() => setShowDialogManageUser(true)}
-            className="flex gap-4 items-center h-10 px-5 rounded-xl bg-orange-500 text-white text-sm cursor-pointer hover:bg-orange-600"
+            onClick={() => {
+              setSelectedUser(null);
+              setShowDialogManageUser(true);
+            }}
+            className="flex h-10 cursor-pointer items-center gap-4 rounded-xl bg-orange-500 px-5 text-sm text-white hover:bg-orange-600"
           >
             <p>+</p>
             <p>Add New User</p>
           </button>
         </div>
 
-        <div
-          className={`h-[calc(100svh-13.5rem)] sm:h-[calc(100svh-17.5rem)] overflow-y-auto pb-4 px-4`}
-        >
+        <div className="h-[calc(100svh-12.3rem)] overflow-y-auto px-4 pb-4 sm:h-[calc(100svh-17.5rem)]">
           {loading ? (
             <Loading />
           ) : users.length <= 0 ? (
-            <div className="w-full flex justify-center mt-6">
+            <div className="mt-6 flex w-full justify-center">
               <p>Data not found.</p>
             </div>
           ) : (
             <div
               className={`${
-                viewMode === "list"
-                  ? "flex flex-col gap-4"
-                  : "grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+                viewMode === 'list'
+                  ? 'flex flex-col gap-4'
+                  : 'grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
               }`}
             >
               {[...users]
                 .sort((a, b) => b.id - a.id)
                 .map((user) => {
-                  if (viewMode === "list") {
+                  if (viewMode === 'list') {
                     return (
                       <UsersList
                         key={user.id}
@@ -146,46 +141,28 @@ function App() {
         <DialogUserDetail
           selectedUser={selectedUser}
           open={showDialogDetailUser}
-          setOpen={(open) => {
-            setShowDialogDetailUser(open);
-            if (!open) setSelectedUser(null);
-          }}
+          setOpen={setShowDialogDetailUser}
         />
       )}
       <DialogDeleteConfirmation
         open={showDialogDeleteConfirmation}
-        setOpen={(open) => {
-          setShowDialogDeleteConfirmation(open);
-          if (!open) setSelectedUser(null);
-        }}
+        setOpen={setShowDialogDeleteConfirmation}
         onYes={() => {
           if (selectedUser) {
-            setLoading(true);
-            setSelectedUser(null);
             deleteUser(selectedUser.id);
-            setAlert({ show: true, type: "success" });
-            setLoading(false);
           }
         }}
       />
       <DialogManageUser
         open={showDialogManageUser}
         selectedUser={selectedUser}
-        setOpen={(open) => {
-          setShowDialogManageUser(open);
-          if (!open) setSelectedUser(null);
-        }}
+        setOpen={setShowDialogManageUser}
         onSubmit={(userData: UserDataType) => {
-          setLoading(true);
           if (selectedUser) {
             editUser(userData);
           } else {
             addUser(userData);
           }
-          setShowDialogManageUser(false);
-          setSelectedUser(null);
-          setAlert({ show: true, type: "success" });
-          setLoading(false);
         }}
       />
       <DialogAlert />

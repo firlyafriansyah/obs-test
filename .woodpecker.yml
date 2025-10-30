@@ -1,0 +1,41 @@
+steps:
+  build:
+    image: docker:27
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /srv/apps:/srv/apps
+    commands:
+      - docker build -t obs-test:latest .
+      - mkdir -p /srv/apps/obs-test
+      - cd /srv/apps/obs-test
+      - |
+        cat <<'EOF' > docker-compose.yml
+        services:
+          app:
+            image: obs-test:latest
+            container_name: obs-test
+            restart: always
+            networks:
+              - proxy
+            expose:
+              - "80"
+            healthcheck:
+              test: ["CMD", "wget", "--spider", "-q", "http://obs-test:80"]
+              interval: 30s
+              timeout: 10s
+              retries: 3
+              start_period: 10s
+        networks:
+          proxy:
+            external: true
+        EOF
+
+      - docker compose down || true
+      - docker compose up -d
+
+    when:
+      event:
+        - push
+        - tag
+      branch:
+        - main

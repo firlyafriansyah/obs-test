@@ -1,7 +1,9 @@
-export default function Loading() {
+import React from 'react';
+
+export default function Loading(): React.ReactElement {
   return (
-    <div className="flex items-center justify-center h-full w-full">
-      <div className="w-10 h-10 border-4 border-gray-300 border-t-orange-600 rounded-full animate-spin" />
+    <div className="flex h-full w-full items-center justify-center">
+      <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-300 border-t-orange-600" />
     </div>
   );
 }

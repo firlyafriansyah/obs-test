@@ -1,18 +1,20 @@
+import React from 'react';
+
 interface InputSearchProps {
   onChange: (value: string) => void;
 }
 
-export default function InputSearch({ onChange }: InputSearchProps) {
+export default function InputSearch({ onChange }: InputSearchProps): React.ReactElement {
   return (
-    <div className="flex items-center w-xl h-10 border border-gray-300 rounded-lg bg-white">
-      <div className="h-9 flex items-center px-3">
+    <div className="flex h-10 w-xl items-center rounded-lg border border-gray-300 bg-white">
+      <div className="flex h-9 items-center px-3">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth="2"
           stroke="currentColor"
-          className="w-5 h-5 text-gray-600"
+          className="h-5 w-5 text-gray-600"
         >
           <path
             strokeLinecap="round"
@@ -23,7 +25,7 @@ export default function InputSearch({ onChange }: InputSearchProps) {
       </div>
       <input
         placeholder="Search..."
-        className="h-9 w-full focus:border-0 outline-0 text-sm pr-2"
+        className="h-9 w-full pr-2 text-sm outline-0 focus:border-0"
         onChange={(e) => onChange(e.target.value)}
       />
     </div>

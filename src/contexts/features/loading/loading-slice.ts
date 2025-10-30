@@ -1,4 +1,4 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 interface LoadingState {
   loadingState: boolean;
@@ -9,7 +9,7 @@ const initialState: LoadingState = {
 };
 
 const loadingSlice = createSlice({
-  name: "loading",
+  name: 'loading',
   initialState,
   reducers: {
     setLoadingState: (state, action: PayloadAction<boolean>) => {

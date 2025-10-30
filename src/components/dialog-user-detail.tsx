@@ -1,5 +1,6 @@
-import * as React from "react";
-import type { UserDataType } from "../models/users";
+import React from 'react';
+import type { UserDataType } from '../models/users';
+import ImageWithSkeleton from './image-with-skeleton';
 
 interface DialogUserDetailProps {
   open: boolean;
@@ -11,7 +12,7 @@ export default function DialogUserDetail({
   open,
   setOpen,
   selectedUser,
-}: DialogUserDetailProps) {
+}: DialogUserDetailProps): React.ReactElement {
   const ref = React.useRef<HTMLButtonElement>(null);
 
   React.useEffect(() => {
@@ -24,24 +25,25 @@ export default function DialogUserDetail({
 
   return (
     <div
-      className={`absolute top-0 left-0 justify-center items-center bg-black/30 h-svh w-svw z-10 transition-all px-4 ${
-        open ? "flex" : "hidden"
+      className={`absolute top-0 left-0 z-10 h-svh w-svw items-center justify-center bg-black/30 px-4 transition-all ${
+        open ? 'flex' : 'hidden'
       }`}
     >
-      <div className="relative max-w-[480px] sm:w-[480px] bg-white shadow-2xl rounded-2xl px-8 pt-12 pb-2">
-        <div className="flex justify-center mb-4">
-          <div className="h-28 w-28 rounded-full overflow-hidden p-1 border-4 border-orange-500">
-            <div className="h-full w-full rounded-full overflow-hidden">
-              <img
+      <div className="relative max-w-[480px] rounded-2xl bg-white px-8 pt-12 pb-2 shadow-2xl sm:w-[480px]">
+        <div className="mb-4 flex justify-center">
+          <div className="h-28 w-28 overflow-hidden rounded-full border-4 border-orange-500 p-1">
+            <div className="h-full w-full overflow-hidden rounded-full">
+              <ImageWithSkeleton
                 src="https://picsum.photos/200/300"
-                className="object-cover w-full h-full"
+                className="h-full w-full object-cover"
+                alt="User Profile"
               />
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-center mb-4">
-          <p className="font-light text-xs">@{selectedUser.username}</p>
-          <p className="font-medium text-lg">{selectedUser.name}</p>
+        <div className="mb-4 flex flex-col items-center">
+          <p className="text-xs font-light">@{selectedUser.username}</p>
+          <p className="text-lg font-medium">{selectedUser.name}</p>
           <p className="text-sm">{selectedUser.email}</p>
         </div>
         <div className="mb-2">
@@ -55,29 +57,23 @@ export default function DialogUserDetail({
         <div className="mb-2">
           <p className="font-medium">Company</p>
           <p className="text-sm font-light">{selectedUser.company.name}</p>
-          <p className="text-sm font-light">
-            {selectedUser.company.catchPhrase}
-          </p>
+          <p className="text-sm font-light">{selectedUser.company.catchPhrase}</p>
           <p className="text-sm font-light">{selectedUser.company.bs}</p>
         </div>
         <div className="mb-2">
           <p className="font-medium">Address</p>
           <p className="text-sm font-light">
-            {selectedUser.address.street}, {selectedUser.address.suite},{" "}
-            {selectedUser.address.city}, {selectedUser.address.zipcode}
+            {selectedUser.address.street}, {selectedUser.address.suite}, {selectedUser.address.city}
+            , {selectedUser.address.zipcode}
           </p>
-          <p className="text-sm font-light">
-            Lat. {selectedUser.address.geo.lat}
-          </p>
-          <p className="text-sm font-light">
-            Long. {selectedUser.address.geo.lng}
-          </p>
+          <p className="text-sm font-light">Lat. {selectedUser.address.geo.lat}</p>
+          <p className="text-sm font-light">Long. {selectedUser.address.geo.lng}</p>
         </div>
 
         <div className="flex w-full justify-center">
           <button
             ref={ref}
-            className="h-10 w-24 px-3 my-4 bg-gray-500 text-white rounded-lg cursor-pointer hover:bg-gray-600"
+            className="my-4 h-10 w-24 cursor-pointer rounded-lg bg-gray-500 px-3 text-white hover:bg-gray-600"
             onClick={() => setOpen(false)}
           >
             Close
@@ -87,7 +83,7 @@ export default function DialogUserDetail({
         <div className="absolute top-4 right-4">
           <button
             onClick={() => setOpen(false)}
-            className="p-1 rounded-lg cursor-pointer hover:bg-gray-200"
+            className="cursor-pointer rounded-lg p-1 hover:bg-gray-200"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +95,7 @@ export default function DialogUserDetail({
               strokeWidth={2}
               strokeLinecap="round"
               strokeLinejoin="round"
-              role={"button"}
+              role="button"
             >
               <title>Close</title>
               <line x1={18} y1={6} x2={6} y2={18} />

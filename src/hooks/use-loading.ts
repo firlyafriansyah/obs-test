@@ -1,7 +1,7 @@
-import * as React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../contexts/app/store";
-import { setLoadingState } from "../contexts/features/loading/loading-slice";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from '../contexts/app/store';
+import { setLoadingState } from '../contexts/features/loading/loading-slice';
 
 export default function useLoading() {
   const dispatch = useDispatch<AppDispatch>();
@@ -11,7 +11,7 @@ export default function useLoading() {
     (loading: boolean) => {
       dispatch(setLoadingState(loading));
     },
-    [dispatch]
+    [dispatch],
   );
 
   return { loading, setLoading };

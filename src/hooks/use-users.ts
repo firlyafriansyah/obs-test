@@ -1,6 +1,7 @@
-import * as React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../contexts/app/store";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from '../contexts/app/store';
+import { setLoadingState } from '../contexts/features/loading/loading-slice';
 import {
   addUserState,
   deleteUserState,
@@ -10,58 +11,117 @@ import {
   setSelectedUserState,
   setUsersState,
   totalUsersState,
-} from "../contexts/features/users/users-slice";
-import type { UserDataType } from "../models/users";
+} from '../contexts/features/users/users-slice';
+import type { UserDataType } from '../models/users';
+import { setAlertState } from '../contexts/features/alert/alert-slice';
 
 export default function useUsers() {
   const dispatch = useDispatch<AppDispatch>();
   const users = useSelector(filteredUsersState);
   const totalUsers = useSelector(totalUsersState);
   const search = useSelector((state: RootState) => state.users.searchState);
-  const selectedUser = useSelector(
-    (state: RootState) => state.users.selectedUserState
-  );
+  const selectedUser = useSelector((state: RootState) => state.users.selectedUserState);
 
   const setUsers = React.useCallback(
     (users: UserDataType[]) => {
       dispatch(setUsersState(users));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const setSelectedUser = React.useCallback(
     (userId: number | null) => {
       dispatch(setSelectedUserState(userId));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const setSearch = React.useCallback(
     (value: string) => {
       dispatch(setSearchState(value));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const addUser = React.useCallback(
     (user: UserDataType) => {
-      dispatch(addUserState(user));
+      dispatch(setLoadingState(true));
+      try {
+        dispatch(addUserState(user));
+        setAlertState({
+          show: true,
+          type: 'success',
+          message: 'User successfully added',
+        });
+      } catch (error) {
+        dispatch(
+          setAlertState({
+            show: true,
+            type: 'error',
+            message: `Add user failed. Error: ${(error as Error).message}`,
+          }),
+        );
+      } finally {
+        dispatch(setLoadingState(false));
+      }
     },
-    [dispatch]
+    [dispatch],
   );
 
   const editUser = React.useCallback(
     (user: UserDataType) => {
-      dispatch(editUserState(user));
+      dispatch(setLoadingState(true));
+      try {
+        dispatch(editUserState(user));
+        dispatch(setSelectedUserState(null));
+        dispatch(
+          setAlertState({
+            show: true,
+            type: 'success',
+            message: 'User successfully updated',
+          }),
+        );
+      } catch (error) {
+        dispatch(
+          setAlertState({
+            show: true,
+            type: 'error',
+            message: `Edit user failed. Error: ${(error as Error).message}`,
+          }),
+        );
+      } finally {
+        dispatch(setLoadingState(false));
+      }
     },
-    [dispatch]
+    [dispatch],
   );
 
   const deleteUser = React.useCallback(
     (userId: number) => {
-      dispatch(deleteUserState(userId));
+      dispatch(setLoadingState(true));
+      try {
+        dispatch(deleteUserState(userId));
+        dispatch(setSelectedUserState(null));
+        dispatch(
+          setAlertState({
+            show: true,
+            type: 'success',
+            message: 'User successfully deleted',
+          }),
+        );
+      } catch (error) {
+        dispatch(
+          setAlertState({
+            show: true,
+            type: 'error',
+            message: `Edit user failed. Error: ${(error as Error).message}`,
+          }),
+        );
+      } finally {
+        dispatch(setLoadingState(false));
+      }
     },
-    [dispatch]
+    [dispatch],
   );
 
   return {

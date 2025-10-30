@@ -1,5 +1,6 @@
-import * as React from "react";
-import type { UserDataType } from "../models/users";
+import React from 'react';
+import type { UserDataType } from '../models/users';
+import ImageWithSkeleton from './image-with-skeleton';
 
 interface UsersCardProps {
   user: UserDataType;
@@ -13,42 +14,42 @@ const UsersCard = React.memo(function UsersCard({
   showDetail,
   onEdit,
   onDelete,
-}: UsersCardProps) {
+}: UsersCardProps): React.ReactElement {
   return (
     <div
+      tabIndex={0}
+      role="button"
       onClick={() => showDetail()}
-      className="w-full h-[438px] bg-white p-2 shadow-2xl text-left rounded-2xl border border-gray-200 overflow-hidden cursor-pointer group hover:border-gray-300"
+      onKeyDown={(e) => e.key === 'Enter' && showDetail()}
+      className="group relative h-[445px] w-full cursor-pointer overflow-hidden rounded-2xl border border-gray-200 bg-white p-2 text-left shadow-2xl hover:border-gray-300"
     >
-      <div className="h-72 rounded-2xl mb-3 overflow-hidden transition-all group-hover:h-60">
-        <img
-          src="https://picsum.photos/200/300"
-          className="object-cover w-full h-full"
-        />
-      </div>
-      <div className="p-2">
-        <div className="mb-2">
-          <p className="text-xs font-light text-gray-700 line-clamp-1">
-            @{user.username}
-          </p>
-          <p className="text-lg font-medium line-clamp-1 capitalize">
-            {user.name}
-          </p>
+      <div>
+        <div className="mb-3 h-72 overflow-hidden rounded-2xl transition-[height] duration-300 ease-in-out group-hover:h-60">
+          <ImageWithSkeleton
+            src="https://picsum.photos/200/300"
+            className="h-full w-full object-cover"
+            alt="User Profile"
+          />
         </div>
-        <div className="mb-1 hidden transition-transform group-hover:block">
-          <p className="text-sm font-medium line-clamp-1">
-            {user.company.name}
-          </p>
-          <p className="text-xs line-clamp-1">{user.company.catchPhrase}</p>
-          <p className="text-xs line-clamp-1">{user.company.bs}</p>
+        <div className="p-2">
+          <div className="mb-2">
+            <p className="line-clamp-1 text-xs font-light text-gray-700">@{user.username}</p>
+            <p className="line-clamp-1 text-lg font-medium capitalize">{user.name}</p>
+          </div>
+          <div className="invisible mb-1 h-0 opacity-0 transition-[height,opacity] duration-300 ease-in-out group-hover:visible group-hover:h-auto group-hover:opacity-100">
+            <p className="line-clamp-1 text-sm font-medium">{user.company.name}</p>
+            <p className="line-clamp-1 text-xs">{user.company.catchPhrase}</p>
+            <p className="line-clamp-1 text-xs">{user.company.bs}</p>
+          </div>
         </div>
       </div>
-      <div className="flex gap-2 px-2 mb-1 transition-none">
+      <div className="absolute right-2 bottom-2 left-2 flex gap-2">
         <button
           onClick={(e) => {
             e.stopPropagation();
             onEdit();
           }}
-          className="h-10 w-1/2 bg-blue-500 text-white rounded-xl text-sm hover:bg-blue-600 cursor-pointer"
+          className="h-10 w-1/2 cursor-pointer rounded-xl bg-blue-500 text-sm text-white hover:bg-blue-600"
         >
           Edit
         </button>
@@ -57,7 +58,7 @@ const UsersCard = React.memo(function UsersCard({
             e.stopPropagation();
             onDelete();
           }}
-          className="h-10 w-1/2 bg-red-500 text-white rounded-xl text-sm hover:bg-red-600 cursor-pointer"
+          className="h-10 w-1/2 cursor-pointer rounded-xl bg-red-500 text-sm text-white hover:bg-red-600"
         >
           Delete
         </button>
