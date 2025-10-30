@@ -3,7 +3,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import UsersCard from '../../components/users-card';
 import type { UserDataType } from '../../models/users';
 
-// Mock the ImageWithSkeleton component
 vi.mock('./image-with-skeleton', () => ({
   default: ({ src, alt, className }: React.ImgHTMLAttributes<HTMLImageElement>) => (
     <img src={src} alt={alt} className={className} data-testid="user-card-image" />

@@ -30,30 +30,25 @@ export default defineConfig([
       },
     },
     rules: {
-      // TypeScript specific rules
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/no-non-null-assertion': 'warn',
       '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
-
-      // React specific rules
-      'react/react-in-jsx-scope': 'off', // Not needed in React 17+
-      'react/prop-types': 'off', // Since we use TypeScript
+      'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'off',
       'react/jsx-no-duplicate-props': 'error',
       'react/jsx-key': 'error',
       'react/self-closing-comp': 'error',
       'react/jsx-curly-brace-presence': ['error', { props: 'never', children: 'never' }],
-
-      // General JavaScript/ES6+ rules
       'no-console': ['warn', { allow: ['warn', 'error'] }],
       'no-debugger': 'warn',
       'no-duplicate-imports': 'error',
       'no-unused-private-class-members': 'error',
       'no-template-curly-in-string': 'error',
       'no-unreachable': 'error',
-      'no-unused-vars': 'off', // Use TypeScript's checker instead
+      'no-unused-vars': 'off',
       camelcase: 'error',
       eqeqeq: ['error', 'always'],
       'no-var': 'error',
@@ -61,8 +56,6 @@ export default defineConfig([
       'prefer-template': 'error',
       quotes: ['error', 'single', { avoidEscape: true }],
       'object-shorthand': 'error',
-
-      // Code style
       'max-len': [
         'warn',
         {

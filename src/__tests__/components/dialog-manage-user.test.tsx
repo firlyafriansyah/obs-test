@@ -5,7 +5,6 @@ import useUsers from '../../hooks/use-users';
 import type { UserDataType } from '../../models/users';
 import DialogManageUser from '../../components/dialog-manage-user';
 
-// Mock the hooks and components
 vi.mock('../../hooks/use-users', () => ({
   default: vi.fn(),
 }));

@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import type { UserDataType } from '../../models/users';
 import GetUsersServices from '../../services/get-users';
 
-// Properly type global fetch mock
-globalThis.fetch = vi.fn() as unknown as vi.MockedFunction<typeof fetch>;
+globalThis.fetch = vi.fn();
 
 describe('GetUsersServices', () => {
   const mockUsers: UserDataType[] = [
@@ -63,7 +63,7 @@ describe('GetUsersServices', () => {
         ok: true,
         json: async () => mockUsers,
       };
-      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
+      (fetch as any).mockResolvedValueOnce(mockResponse as Response);
 
       const result = await GetUsersServices();
 
@@ -76,7 +76,7 @@ describe('GetUsersServices', () => {
         ok: true,
         json: async () => mockUsers,
       };
-      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
+      (fetch as any).mockResolvedValueOnce(mockResponse as Response);
 
       await GetUsersServices();
 
@@ -89,7 +89,7 @@ describe('GetUsersServices', () => {
         ok: true,
         json: async () => [],
       };
-      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
+      (fetch as any).mockResolvedValueOnce(mockResponse as Response);
 
       const result = await GetUsersServices();
 
@@ -102,7 +102,7 @@ describe('GetUsersServices', () => {
         ok: true,
         json: async () => mockUsers,
       };
-      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
+      (fetch as any).mockResolvedValueOnce(mockResponse as Response);
 
       const result = await GetUsersServices();
 
@@ -122,7 +122,7 @@ describe('GetUsersServices', () => {
         ok: true,
         json: async () => mockUsers,
       };
-      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
+      (fetch as any).mockResolvedValueOnce(mockResponse as Response);
 
       const result = await GetUsersServices();
 
@@ -141,7 +141,7 @@ describe('GetUsersServices', () => {
         ok: true,
         json: async () => mockUsers,
       };
-      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
+      (fetch as any).mockResolvedValueOnce(mockResponse as Response);
 
       const result = await GetUsersServices();
 
@@ -156,7 +156,7 @@ describe('GetUsersServices', () => {
         ok: true,
         json: async () => [mockUsers[0]],
       };
-      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
+      (fetch as any).mockResolvedValueOnce(mockResponse as Response);
 
       const result = await GetUsersServices();
 
@@ -169,7 +169,7 @@ describe('GetUsersServices', () => {
         ok: true,
         json: async () => mockUsers,
       };
-      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
+      (fetch as any).mockResolvedValueOnce(mockResponse as Response);
 
       const result = await GetUsersServices();
 
@@ -182,37 +182,31 @@ describe('GetUsersServices', () => {
   describe('Error Handling', () => {
     it('should reject with error message when fetch fails', async () => {
       const errorMessage = 'Network error';
-      (fetch as vi.MockedFunction<typeof fetch>).mockRejectedValueOnce(new Error(errorMessage));
+      (fetch as any).mockRejectedValueOnce(new Error(errorMessage));
 
       await expect(GetUsersServices()).rejects.toBe(errorMessage);
     });
 
     it('should reject when network is unavailable', async () => {
-      (fetch as vi.MockedFunction<typeof fetch>).mockRejectedValueOnce(
-        new Error('Failed to fetch'),
-      );
+      (fetch as any).mockRejectedValueOnce(new Error('Failed to fetch'));
 
       await expect(GetUsersServices()).rejects.toBe('Failed to fetch');
     });
 
     it('should reject when API returns error', async () => {
-      (fetch as vi.MockedFunction<typeof fetch>).mockRejectedValueOnce(new Error('API Error'));
+      (fetch as any).mockRejectedValueOnce(new Error('API Error'));
 
       await expect(GetUsersServices()).rejects.toBe('API Error');
     });
 
     it('should handle timeout errors', async () => {
-      (fetch as vi.MockedFunction<typeof fetch>).mockRejectedValueOnce(
-        new Error('Request timeout'),
-      );
+      (fetch as any).mockRejectedValueOnce(new Error('Request timeout'));
 
       await expect(GetUsersServices()).rejects.toBe('Request timeout');
     });
 
     it('should handle server errors', async () => {
-      (fetch as vi.MockedFunction<typeof fetch>).mockRejectedValueOnce(
-        new Error('500 Internal Server Error'),
-      );
+      (fetch as any).mockRejectedValueOnce(new Error('500 Internal Server Error'));
 
       await expect(GetUsersServices()).rejects.toBe('500 Internal Server Error');
     });
@@ -224,7 +218,7 @@ describe('GetUsersServices', () => {
           throw new Error('Invalid JSON');
         },
       };
-      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
+      (fetch as any).mockResolvedValueOnce(mockResponse as Response);
 
       await expect(GetUsersServices()).rejects.toBe('Invalid JSON');
     });
@@ -236,7 +230,7 @@ describe('GetUsersServices', () => {
         ok: true,
         json: async () => mockUsers,
       };
-      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
+      (fetch as any).mockResolvedValueOnce(mockResponse as Response);
 
       const result = GetUsersServices();
 
@@ -248,7 +242,7 @@ describe('GetUsersServices', () => {
         ok: true,
         json: async () => mockUsers,
       };
-      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
+      (fetch as any).mockResolvedValueOnce(mockResponse as Response);
 
       const result = await GetUsersServices();
 
@@ -261,7 +255,7 @@ describe('GetUsersServices', () => {
         ok: true,
         json: async () => mockUsers,
       };
-      (fetch as vi.MockedFunction<typeof fetch>).mockResolvedValueOnce(mockResponse as Response);
+      (fetch as any).mockResolvedValueOnce(mockResponse as Response);
 
       const result = await GetUsersServices();
 
