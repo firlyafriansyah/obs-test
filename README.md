@@ -93,6 +93,24 @@ The application uses Redux for state management with the following slices:
 - Loading state
 - Alert state
 
+## Deployment
+
+This project uses CI/CD pipeline and Docker for deployment:
+
+### CI/CD Pipeline
+
+The project implements automated deployment using CI/CD, I use Woodpecker as CI agent and server on my own server the pipeline which:
+
+- Runs tests and linting
+- Builds Docker image
+- Deploys to production use docker compose
+
+### Docker Deployment
+
+The application is containerized using Docker:
+
+- The container use image which build use Dockerfile
+
 ## Development
 
 ### Code Style
