@@ -34,6 +34,7 @@ export default function DialogUserDetail({
           <div className="h-28 w-28 overflow-hidden rounded-full border-4 border-orange-500 p-1">
             <div className="h-full w-full overflow-hidden rounded-full">
               <ImageWithSkeleton
+                data-testid="profile-image"
                 src="https://picsum.photos/200/300"
                 className="h-full w-full object-cover"
                 alt="User Profile"
@@ -97,7 +98,7 @@ export default function DialogUserDetail({
               strokeLinejoin="round"
               role="button"
             >
-              <title>Close</title>
+              <title>X</title>
               <line x1={18} y1={6} x2={6} y2={18} />
               <line x1={6} y1={6} x2={18} y2={18} />
             </svg>

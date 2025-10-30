@@ -1,4 +1,16 @@
 steps:
+  test:
+    image: node:24-alpine
+    commands:
+      - npm run lint
+
+    when:
+      event:
+        - push
+        - tag
+      branch:
+        - main
+
   build:
     image: docker:27
     volumes:

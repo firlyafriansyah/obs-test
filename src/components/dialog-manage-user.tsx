@@ -198,7 +198,7 @@ export default function DialogManageUser({
             </div>
             <p className="mt-4 mb-2 font-medium">Company</p>
             <Input
-              label="Name"
+              label="Company Name"
               className="mb-2"
               placeholder="Name..."
               {...register('companyName', { required: 'Company name is required' })}
@@ -253,7 +253,7 @@ export default function DialogManageUser({
               strokeLinejoin="round"
               role="button"
             >
-              <title>Close</title>
+              <title>X</title>
               <line x1={18} y1={6} x2={6} y2={18} />
               <line x1={6} y1={6} x2={18} y2={18} />
             </svg>

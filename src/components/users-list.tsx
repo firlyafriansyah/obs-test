@@ -19,6 +19,7 @@ const UsersList = React.memo(function UsersList({
     <div
       tabIndex={0}
       role="button"
+      data-testid="user-list"
       onClick={() => showDetail()}
       onKeyDown={(e) => e.key === 'Enter' && showDetail()}
       className="group flex w-full cursor-pointer items-center justify-between gap-3 rounded-2xl border border-gray-200 bg-white p-3 text-start shadow-xl"
@@ -26,6 +27,7 @@ const UsersList = React.memo(function UsersList({
       <div className="xs:w-3/5 flex w-1/2 items-center sm:group-hover:w-1/3">
         <div className="mr-6 hidden h-16 max-w-16 min-w-16 overflow-hidden rounded-full transition-all group-hover:rounded-xl sm:block sm:max-w-32 sm:min-w-32 sm:rounded-xl sm:group-hover:max-w-16 sm:group-hover:min-w-16 sm:group-hover:rounded-full">
           <ImageWithSkeleton
+            data-testid="user-list-image"
             src="https://picsum.photos/200/300"
             className="h-full w-full object-cover"
             alt="User Profile"

@@ -20,7 +20,7 @@ export default function DialogAlert(): React.ReactElement {
             fill="none"
             role="img"
           >
-            <title>Success</title>
+            <title>Correct</title>
             <circle cx="12" cy="12" r="10" className="fill-green-500" />
             <path
               d="M8 12l2.5 2.5L16 9"
@@ -39,7 +39,7 @@ export default function DialogAlert(): React.ReactElement {
             fill="none"
             role="img"
           >
-            <title>Failed</title>
+            <title>Wrong</title>
             <circle cx="12" cy="12" r="10" className="fill-red-500" />
             <path
               d="M15 9L9 15M9 9l6 6"
@@ -83,7 +83,7 @@ export default function DialogAlert(): React.ReactElement {
               strokeLinejoin="round"
               role="button"
             >
-              <title>Close</title>
+              <title>X</title>
               <line x1={18} y1={6} x2={6} y2={18} />
               <line x1={6} y1={6} x2={18} y2={18} />
             </svg>

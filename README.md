@@ -120,3 +120,12 @@ The project uses ESLint for code quality. To check for any code style issues:
 ```bash
 npm run lint
 ```
+
+### Testing
+
+All unit test on this project is initialize by AI and enhance by me, I make sure understand all the unit test on this project.
+For run testing script, just use this command
+
+```bash
+npm run test
+```

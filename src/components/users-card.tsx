@@ -19,6 +19,7 @@ const UsersCard = React.memo(function UsersCard({
     <div
       tabIndex={0}
       role="button"
+      data-testid="user-card"
       onClick={() => showDetail()}
       onKeyDown={(e) => e.key === 'Enter' && showDetail()}
       className="group relative h-[445px] w-full cursor-pointer overflow-hidden rounded-2xl border border-gray-200 bg-white p-2 text-left shadow-2xl hover:border-gray-300"
@@ -26,6 +27,7 @@ const UsersCard = React.memo(function UsersCard({
       <div>
         <div className="mb-3 h-72 overflow-hidden rounded-2xl transition-[height] duration-300 ease-in-out group-hover:h-60">
           <ImageWithSkeleton
+            data-testid="user-card-image"
             src="https://picsum.photos/200/300"
             className="h-full w-full object-cover"
             alt="User Profile"
