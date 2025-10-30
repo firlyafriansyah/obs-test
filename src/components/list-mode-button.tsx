@@ -11,6 +11,7 @@ export default function ListModeButton({
 }: ListModeButtonProps): React.ReactElement {
   return (
     <button
+      name="list-button"
       onClick={() => onClick()}
       className={`group flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border border-gray-300 ${
         active ? 'bg-gray-900' : 'bg-white hover:bg-gray-900'

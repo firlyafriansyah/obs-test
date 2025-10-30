@@ -11,6 +11,7 @@ export default function GridModeButton({
 }: GridModeButtonProps): React.ReactElement {
   return (
     <button
+      name="grid-button"
       data-testid="grid-button"
       onClick={() => onClick()}
       className={`group flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border border-gray-300 ${
